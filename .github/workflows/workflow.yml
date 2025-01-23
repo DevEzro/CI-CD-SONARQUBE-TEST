@@ -45,6 +45,6 @@ jobs:
             -Dsonar.projectKey=SQLInjectionTest \
             -Dsonar.host.url=http://80.32.55.61:9000 \
             -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.sources=src/Main.java \
+            -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
             -X
