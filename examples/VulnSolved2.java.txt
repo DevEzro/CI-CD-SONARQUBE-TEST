@@ -21,7 +21,7 @@ public class Main {
         String query = "SELECT id, name FROM users WHERE id = ?"; // Use parameterized query to prevent SQL injection
 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "password");
-            PreparedStatement pstmt = conn.prepareStatement(query)) {
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, userId); // Set the user ID parameter
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
