@@ -15,13 +15,18 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); // Init data input
 
-        System.out.println("Type your ID: ");
+        LOGGER.info("Type your ID: ");
         String userId = scanner.nextLine();
 
         String query = "SELECT id, name FROM users WHERE id = ?"; // Use parameterized query to prevent SQL injection
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "password");
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        // Use environment variables or a secret manager for credentials
+        String dbUrl = System.getenv("DB_URL");
+        String dbUser = System.getenv("DB_USER");
+        String dbPassword = System.getenv("DB_PASSWORD");
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, userId); // Set the user ID parameter
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
