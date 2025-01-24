@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); //Init data input
 
-        System.out.println("Type your ID: ");
+        System.out.println("Type your ID!: ");
         String userId = scanner.nextLine();
 
         String query = "SELECT * FROM users WHERE id = " + userId; //Query
