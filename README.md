@@ -56,3 +56,5 @@ Para comprobar el funcionamiento de SonarQube respecto a este repositorio, se es
 
 >[!WARNING]
 Es posible que aparezca como `❌Failed` debido a que habrá cosas por cubrir como tests o pruebas en el código. Puede ocurrir que no interese mostrar esos error por lo que se debe crear una `Quality Gate` en SonarQube, estableciendo todo a 0% excepto los `Security Hotspots Review`
+
+[![Stargazers over time](https://starchart.cc/DevEzro/repo.svg?background=%23000000&axis=%23ffffff&line=%2300e1ff)](https://starchart.cc/devezro/repo)
