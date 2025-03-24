@@ -1,5 +1,5 @@
-# GITHUB ACTIONS W/ SONARQUBE SETUP
-## PASO 1 - DOCKER
+# 🕵🏻 GITHUB ACTIONS W/ SONARQUBE SETUP
+## ⚙️ PASO 1 - DOCKER
 ### docker-compose.yml
 - Postgres como DB de SonarQube
 - SonarQube
@@ -7,13 +7,13 @@
 
 <br>
 
-## PASO 2 - NGROK (OPCIONAL)
+## 💭 PASO 2 - NGROK (OPCIONAL)
 - [Ngrok download](https://download.ngrok.com/downloads/windows)
 - [Autenticarse en CMD](https://dashboard.ngrok.com/get-started/your-authtoken)
 
 <br>
 
-## PASO 3 - SONARQUBE TOKEN
+## 🔐 PASO 3 - SONARQUBE TOKEN
 - `localhost:9000`
 -  user: `admin` pass: `admin`
 -  New pass / My Account / Security / Generate Tokens:
@@ -26,7 +26,7 @@
 
 <br>
 
-### PASO 4 - CONFIGURAR YML
+### 📚 PASO 4 - CONFIGURAR YML
 - El fichero `workflow.yml` en `.github/workflows` define las tareas a realizar
 - Para que funcione correctamente con SonarQube y se ejecute el análisis, modificar en `workflow.yml` el parámetro `-Dsonar.host.url=<URL SONARQUBE> \`
 
@@ -35,7 +35,7 @@
 
 <br>
 
-### PASO 5 - EJECUTAR JOBS
+### ▶️ PASO 5 - EJECUTAR JOBS
 - `git add .` 
 - `git commit -m "Jobs"`
 - `git push -u origin main` 
@@ -43,7 +43,7 @@
 >[!NOTE]
 Para comprobar el funcionamiento de SonarQube respecto a este repositorio, se especifica a continuación los pasos para visualizar los efectos que tiene:
 
-1. Asegurarse de tener el codigo del fic.hero `examples/Main.java.txt` en `src/com/example/sqlinjection/Main.java`.
+1. Asegurarse de tener el codigo del fichero `examples/Main.java.txt` en `src/com/example/sqlinjection/Main.java`.
 2. Hacemos `git add .`, `git commit -m "init"` y `git push -u origin main`
 3. El workflow lo detectará y comenzará el analisis.
 4. Al finalizar accedemos a la URL donde tenemos sonar y vemos el analisis (el estado será `✅Passed`)
