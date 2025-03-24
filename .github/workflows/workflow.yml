@@ -43,7 +43,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
-            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.host.url=https://ab0b-31-4-242-199.ngrok-free.app \
             -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
