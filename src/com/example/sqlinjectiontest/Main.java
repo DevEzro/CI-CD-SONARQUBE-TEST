@@ -36,7 +36,7 @@ public class Main {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Database error!", e); // Log the error
+            LOGGER.log(Level.SEVERE, "Database error", e); // Log the error
         } finally {
             scanner.close(); // Close the scanner
         }
