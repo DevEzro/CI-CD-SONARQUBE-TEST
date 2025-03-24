@@ -30,8 +30,7 @@
 - El fichero `workflow.yml` en `.github/workflows` define las tareas a realizar
 - Para que funcione correctamente con SonarQube y se ejecute el análisis, modificar en `workflow.yml` el parámetro `-Dsonar.host.url=<URL SONARQUBE> \`
 
->[!CAUTION]
-En el caso de usar ngrok:
+>[!CAUTION] En el caso de usar ngrok:
 `ngrok http 9000` (crea un enlace para el puerto)
 El enlace generado por Ngrok se debe escribir tanto en el apartado de `Verificar SonarQube` como en el `host.url` del `workflow.yml`
 
