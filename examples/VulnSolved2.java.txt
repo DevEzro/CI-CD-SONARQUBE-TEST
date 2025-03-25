@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in); // Init data input
 
-        LOGGER.info("Type your ID!: ");
+        LOGGER.info("Type your ID: ");
         String userId = scanner.nextLine();
 
         String query = "SELECT id, name FROM users WHERE id = ?"; // Use parameterized query to prevent SQL injection
