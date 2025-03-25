@@ -5,10 +5,10 @@ name: SQL INJECTION TEST
 on:
   push:
     branches:
-      - main
+      - dev
   pull_request:
     branches:
-      - main
+      - dev
 
 # Tareas
 jobs:
