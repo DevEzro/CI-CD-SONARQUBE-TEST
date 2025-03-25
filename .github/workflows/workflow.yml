@@ -34,7 +34,7 @@ jobs:
 
       - name: Verificar SonarQube...
         run: |
-          curl -I http://localhost:9000
+          curl -I  https://3df1-77-211-5-162.ngrok-free.app
         continue-on-error: true
 
       - name: Analizar código en SonarQube...
@@ -43,7 +43,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
-            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.host.url= https://3df1-77-211-5-162.ngrok-free.app \
             -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
