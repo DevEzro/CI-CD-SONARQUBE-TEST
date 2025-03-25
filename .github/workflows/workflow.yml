@@ -39,12 +39,12 @@ jobs:
 
       - name: Analizar código en SonarQube...
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }}
         run: |
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
             -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.login=$MAIN_TOKEN \
             -Dsonar.sources=src/com/example/sqlinjectiontest/Main.java \
             -Dsonar.qualitygate.wait=true \
             -X
