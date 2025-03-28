@@ -32,10 +32,10 @@ jobs:
           mv sonar-scanner-5.0.1.3006-linux sonar-scanner
           echo "PATH=$PATH:$(pwd)/sonar-scanner/bin" >> $GITHUB_ENV
 
-      # - name: Verificar SonarQube...
-      #   run: |
-      #     curl -I http://localhost:9000
-      #   continue-on-error: true
+      - name: Verificar SonarQube...
+        run: |
+          curl -I http://localhost:9000
+        continue-on-error: true
 
       - name: Analizar código en SonarQube...
         env:
