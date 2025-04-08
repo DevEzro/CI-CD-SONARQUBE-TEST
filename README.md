@@ -7,10 +7,13 @@
 
 <br>
 
-## 💭 PASO 2 - NGROK (OPCIONAL)
+## 💭 PASO 2 - ALOJAMIENTO (NGROK, PINGGY, SERVIDOR...)
+### NGROK
 - [Ngrok download](https://download.ngrok.com/downloads/windows)
 - [Autenticarse en CMD](https://dashboard.ngrok.com/get-started/your-authtoken)
-
+- Alojar la dirección de SoanrQube: `ngrok http 9000`
+### PINGGY
+- [Pinggy (Instrucciones en la página)](https://pinggy.io)
 <br>
 
 ## 🔐 PASO 3 - SONARQUBE TOKEN
@@ -31,7 +34,7 @@
 - Para que funcione correctamente con SonarQube y se ejecute el análisis, modificar en `workflow.yml` el parámetro `-Dsonar.host.url=<URL SONARQUBE> \`
 
 >[!CAUTION]
-En el caso de usar ngrok: `ngrok http 9000` (crea un enlace para el puerto). El enlace generado por Ngrok se debe escribir tanto en el apartado de `Verificar SonarQube` como en el `host.url` del `workflow.yml`
+Tanto para Pinggy como Ngrok, el enlace generado se debe escribir tanto en el apartado de `Verificar SonarQube` como en el `host.url` del `workflow.yml`
 
 <br>
 
