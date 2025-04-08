@@ -5,9 +5,10 @@ on: # Eventos que activan el workflow
     branches:
       - main
       - dev
+      - feature
 
 env: # Variables de entorno
-  SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
+  SONAR_TOKEN: ${{ secrets.DEV_TOKEN }} # Token for main branch
 
 jobs: # Conjunto de las tareas
   repo-tests: # Nombre de la tarea (job)
@@ -76,7 +77,7 @@ jobs: # Conjunto de las tareas
           sonar-scanner \
             -Dsonar.projectKey=VariosTests \
             -Dsonar.host.url=http://rnzuy-77-211-5-145.a.free.pinggy.link \
-            -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
+            -Dsonar.token=${{ secrets.DEV_TOKEN }} \
             -Dsonar.sources=python,src \
             -Dsonar.python.version=3.x \
             -Dsonar.qualitygate.wait=true \
