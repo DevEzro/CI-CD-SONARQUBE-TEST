@@ -8,7 +8,11 @@ on: # Eventos que activan el workflow
       - feature
 
 env: # Variables de entorno
+<<<<<<< HEAD
   SONAR_TOKEN: ${{ secrets.DEV_TOKEN }} # Token for main branch
+=======
+  SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token for main branch
+>>>>>>> main
   JAVA_SRC: src/com/example/sqlinjectiontest # Directorio del fichero Main.java
   PYTHON_DIR: python # Directorio del fichero file.py
   RESULTS_DIR: results # Directorio de los resultados
@@ -124,7 +128,11 @@ jobs: # Conjunto de las tareas
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
           -Dsonar.host.url=http://rngzh-31-4-242-208.a.free.pinggy.link \
+<<<<<<< HEAD
           -Dsonar.token=${{ secrets.DEV_TOKEN }} \
+=======
+          -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
+>>>>>>> main
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
           -Dsonar.qualitygate.wait=true \
