@@ -41,8 +41,22 @@ jobs: # Conjunto de las tareas
 
     - name: 🛠️ Compilando código Java...
       run: |
-        mkdir -p build
         javac ${{ env.JAVA_SRC }}/Main.java -d build
+      continue-on-error: true
+
+    - name: 📦 Descargando JUnit... # Instala y configura JUnit
+      run: |
+        wget -O junit-platform-console-standalone-1.10.0.jar \
+        https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
+
+    - name: 🧪 Ejecutando tests unitarios Java (JUnit 5)...
+      run: |
+        wget -O junit-platform-console-standalone-1.10.0.jar \
+        https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
+
+        java -jar junit-platform-console-standalone-1.10.0.jar \
+          --class-path build:tests:junit-platform-console-standalone-1.10.0.jar \
+          --scan-class-path | tee ${{ env.RESULTS_DIR }}/java/junit-results.txt
       continue-on-error: true
 
     - name: 🚀 Ejecutando código Java...
@@ -103,13 +117,13 @@ jobs: # Conjunto de las tareas
 
     - name: ☑️ Verificando SonarQube...
       run: |
-        curl -I http://rnvsy-31-4-242-208.a.free.pinggy.link || true
+        curl -I http://rngzh-31-4-242-208.a.free.pinggy.link || true
 
     - name: 🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
-          -Dsonar.host.url=http://rnvsy-31-4-242-208.a.free.pinggy.link \
+          -Dsonar.host.url=http://rngzh-31-4-242-208.a.free.pinggy.link \
           -Dsonar.token=${{ secrets.DEV_TOKEN }} \
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
