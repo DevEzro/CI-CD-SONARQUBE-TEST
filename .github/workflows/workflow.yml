@@ -77,23 +77,6 @@ jobs:
         echo "✅ Java and Python tasks completed."
         echo "📄 Outputs stored in 'results/' and uploaded as artifacts."
 
-<<<<<<< HEAD
-      - name: Verify SonarQube...
-        run: |
-          curl -I http://rnxvr-77-211-5-145.a.free.pinggy.link || true
-
-      - name: Run SonarQube scan
-        run: |
-          sonar-scanner \
-            -Dsonar.projectKey=VariosTests \
-            -Dsonar.host.url=http://rnxvr-77-211-5-145.a.free.pinggy.link \
-            -Dsonar.token=${{ secrets.DEV_TOKEN }} \
-            -Dsonar.sources=python,src \
-            -Dsonar.python.version=3.x \
-            -Dsonar.qualitygate.wait=true \
-            -X
-=======
-
     - name: 🐋Install Sonar Scanner
       run: |
         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
@@ -110,7 +93,7 @@ jobs:
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
           -Dsonar.host.url=http://rnghg-31-4-242-208.a.free.pinggy.link \
-          -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
+          -Dsonar.token=${{ secrets.DEV_TOKEN }} \
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
           -Dsonar.qualitygate.wait=true \
@@ -118,4 +101,3 @@ jobs:
     # ------------ OPTIONAL: Docker (commented) ------------
     # - name: 🐳 Run docker-compose (optional)
     #   run: docker-compose up -d
->>>>>>> main
