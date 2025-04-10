@@ -53,10 +53,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          status=$(curl -s -u $SONAR_TOKEN: "http://80.32.55.61:9000/api/qualitygates/project_status?projectKey=SQLInjectionTest" | jq -r .projectStatus.status)
+          status=$(curl -s -u $SONAR_TOKEN: "http://rnodz-77-211-5-165.a.free.pinggy.link/api/qualitygates/project_status?projectKey=SQLInjectionTest" | jq -r .projectStatus.status)
           if [ "$status" != "OK" ]; then
             echo "Quality Gate failed: $status"
-            echo "View details on http://80.32.55.61:9000/dashboard?id=SQLInjectionTest"
+            echo "View details on http://rnodz-77-211-5-165.a.free.pinggy.link/dashboard?id=SQLInjectionTest"
             exit 1
           else
             echo "Quality Gate passed: $status"
