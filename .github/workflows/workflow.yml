@@ -38,26 +38,11 @@ jobs:
         continue-on-error: true
 
       - name: Analizar con SonarQube...
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner \
             -Dsonar.projectKey=SQLInjectionTest \
             -Dsonar.host.url=http://rnodz-77-211-5-165.a.free.pinggy.link \
-            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.sources=src/Main.java \
             -Dsonar.qualitygate.wait=true \
             -X
-            
-      - name: Verificar Quality Gate...
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          status=$(curl -s -u $SONAR_TOKEN: "http://rnodz-77-211-5-165.a.free.pinggy.link/api/qualitygates/project_status?projectKey=SQLInjectionTest" | jq -r .projectStatus.status)
-          if [ "$status" != "OK" ]; then
-            echo "Quality Gate failed: $status"
-            echo "View details on http://rnodz-77-211-5-165.a.free.pinggy.link/dashboard?id=SQLInjectionTest"
-            exit 1
-          else
-            echo "Quality Gate passed: $status"
-          fi
