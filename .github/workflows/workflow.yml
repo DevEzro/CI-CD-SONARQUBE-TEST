@@ -73,7 +73,7 @@ jobs: # Conjunto de las tareas
 
     - name: 📦 Instalando las dependencias para Python... # Instala las librerias de Python a usar
       run: |
-        pip install pytest flake8 bandit black
+        pip install pytest flake8 bandit black requests uuid
 
     - name: ✏️ Chequeando estilos (flake8)... # Ejecuta flake8
       run: |
@@ -92,7 +92,8 @@ jobs: # Conjunto de las tareas
     - name: 🧪 Ejecutando pytests... # Ejecuta los pytests
       run: |
         mkdir -p ${{ env.RESULTS_DIR }}/python
-        pytest -s -v --disable-warnings python/file.py | tee ${{ env.RESULTS_DIR }}/python/pytest-results.txt
+        pytest -s -v --disable-warnings python/file.py | tee ${{ env.RESULTS_DIR }}/python/pytest_file-results.txt
+        pytest -s -v --disable-warnings python/test/pixegami_test.py | tee ${{ env.RESULTS_DIR }}/python/pytest_pixegami-results.txt
       continue-on-error: true
       
     # ------------ ARTIFACTS ------------
@@ -117,13 +118,13 @@ jobs: # Conjunto de las tareas
 
     - name: ☑️ Verificando SonarQube...
       run: |
-        curl -I http://rnpmf-77-211-5-159.a.free.pinggy.link || true
+        curl -I http://rnduk-77-211-5-159.a.free.pinggy.link || true
 
     - name: 🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
-          -Dsonar.host.url=http://rnpmf-77-211-5-159.a.free.pinggy.link \
+          -Dsonar.host.url=http://rnduk-77-211-5-159.a.free.pinggy.link \
           -Dsonar.token=${{ secrets.FEATURE_TOKEN }} \
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
