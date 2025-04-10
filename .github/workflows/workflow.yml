@@ -1,4 +1,4 @@
-name: CI - Java & Python Build and Test
+name: CI-CD-SONARQUBE-TEST # Nombre del workflow
 
 on: # Eventos que activan el workflow
   push:
@@ -117,13 +117,13 @@ jobs: # Conjunto de las tareas
 
     - name: ☑️ Verificando SonarQube...
       run: |
-        curl -I http://rngzh-31-4-242-208.a.free.pinggy.link || true
+        curl -I http://rnpmf-77-211-5-159.a.free.pinggy.link || true
 
     - name: 🚀 Ejecutando escaneo de SonarQube...
       run: |
         sonar-scanner \
           -Dsonar.projectKey=VariosTests \
-          -Dsonar.host.url=http://rngzh-31-4-242-208.a.free.pinggy.link \
+          -Dsonar.host.url=http://rnpmf-77-211-5-159.a.free.pinggy.link \
           -Dsonar.token=${{ secrets.DEV_TOKEN }} \
           -Dsonar.sources=python,src \
           -Dsonar.python.version=3.x \
