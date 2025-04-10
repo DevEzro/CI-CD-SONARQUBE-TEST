@@ -8,9 +8,9 @@ on: # Eventos que activan el workflow
       - feature
 
 env: # Variables de entorno
-  SONAR_TOKEN: ${{ secrets.FEATURE_TOKEN }} # Token for main branch
+  SONAR_TOKEN: ${{ secrets.FEATURE_TOKEN }} # Token para feature branch
   JAVA_SRC: src/com/example/sqlinjectiontest # Directorio del fichero Main.java
-  PYTHON_DIR: python # Directorio del fichero file.py
+  PYTHON_DIR: python # Directorio de los ficheros python
   RESULTS_DIR: results # Directorio de los resultados
 
 jobs: # Conjunto de las tareas
