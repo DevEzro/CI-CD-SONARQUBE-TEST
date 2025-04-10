@@ -1,132 +1,63 @@
-name: CI-CD-SONARQUBE-TEST # Nombre del workflow
+name: SQL INJECTION TEST
 
-on: # Eventos que activan el workflow
+on:
   push:
-    branches: # Git push activará el workflow al realizarse en estas ramas
+    branches:
       - main
-      - dev
-      - feature
+  pull_request:
+    branches:
+      - main
 
-env: # Variables de entorno
-  SONAR_TOKEN: ${{ secrets.MAIN_TOKEN }} # Token para main branch
-  JAVA_SRC: src/com/example/sqlinjectiontest # Directorio del fichero Main.java
-  PYTHON_DIR: python # Directorio de los ficheros python
-  RESULTS_DIR: results # Directorio de los resultados
+jobs:
+  sonar_analysis:
+    runs-on: ubuntu-latest
 
-jobs: # Conjunto de las tareas
-  build-test: # Nombre de la tarea (job)
-    runs-on: ubuntu-latest # Virtualiza en Ubuntu
+    steps:
+      - name: Clonando repositorio...
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-    steps: # Pasos de la tarea
-    - name: 📥 Clonar repositorio
-      uses: actions/checkout@v4
+      # Configurar JDK 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'zulu'
 
-    # ------------ JAVA BUILD & TEST ------------
-    - name: ☕ Congigurando JDK 17... # Instala y configura Java - ZULU
-      uses: actions/setup-java@v2
-      with:
-        java-version: '17' 
-        distribution: 'zulu'
+      - name: Instalando Sonar Scanner...
+        run: |
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+          mv sonar-scanner-5.0.1.3006-linux sonar-scanner
+          echo "PATH=$PATH:$(pwd)/sonar-scanner/bin" >> $GITHUB_ENV
 
-    - name: 📦 Instalando Checkstyle para Java...
-      run: |
-        wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
-        wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/checkstyle-10.12.1/src/main/resources/google_checks.xml
+      - name: Verificar SonarQube
+        run: |
+          curl -I http://localhost:9000
+        continue-on-error: true
 
-    - name: 🚀 Ejecutando Checkstyle (Java)...
-      run: |
-        mkdir -p ${{ env.RESULTS_DIR }}/java
-        java -jar checkstyle.jar -c google_checks.xml src/com/example/sqlinjectiontest/Main.java | tee ${{ env.RESULTS_DIR }}/java/checkstyle-output.txt || true
-      continue-on-error: true
-
-    - name: 🛠️ Compilando código Java...
-      run: |
-        javac ${{ env.JAVA_SRC }}/Main.java -d build
-      continue-on-error: true
-
-    - name: 📦 Descargando JUnit... # Instala y configura JUnit
-      run: |
-        wget -O junit-platform-console-standalone-1.10.0.jar \
-        https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
-
-    - name: 🧪 Ejecutando tests unitarios Java (JUnit 5)...
-      run: |
-        wget -O junit-platform-console-standalone-1.10.0.jar \
-        https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
-
-        java -jar junit-platform-console-standalone-1.10.0.jar \
-          --class-path build:tests:junit-platform-console-standalone-1.10.0.jar \
-          --scan-class-path | tee ${{ env.RESULTS_DIR }}/java/junit-results.txt
-      continue-on-error: true
-
-    - name: 🚀 Ejecutando código Java...
-      run: java -cp build com.example.sqlinjectiontest.Main | tee ${{ env.RESULTS_DIR}}/java/java-output.txt || true
-
-    - name: 🧹 Limpiando compilados...
-      run: rm -rf build
-
-    # ------------ PYTHON TESTS ------------
-    - name: 🐍 Configurando Python... # Instala y configura Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: 📦 Instalando las dependencias para Python... # Instala las librerias de Python a usar
-      run: |
-        pip install pytest flake8 bandit black requests uuid
-
-    - name: ✏️ Chequeando estilos (flake8)... # Ejecuta flake8
-      run: |
-        mkdir -p ${{ env.RESULTS_DIR }}/python
-        flake8 python/ | tee ${{ env.RESULTS_DIR }}/python/flake-results.txt
-      continue-on-error: true
-  
-    - name: 📊 Chequeando formato (black)... # Ejecuta black
-      run: black --check python/ | tee ${{ env.RESULTS_DIR }}/python/black-results.txt
-      continue-on-error: true
-
-    - name: 🕵🏻‍♂️ Ejecutando análisis de seguridad (bandit)... # Ejecuta bandit en busca de vulnerabilidades
-      run: bandit -r python/ -x tests/ -s B101 | tee ${{ env.RESULTS_DIR }}/python/bandit-results.txt # Ignora el assert de python (-x tests/ -s B101)
-      continue-on-error: true
-
-    - name: 🧪 Ejecutando pytests... # Ejecuta los pytests
-      run: |
-        mkdir -p ${{ env.RESULTS_DIR }}/python
-        pytest -s -v --disable-warnings python/file.py | tee ${{ env.RESULTS_DIR }}/python/pytest_file-results.txt
-        pytest -s -v --disable-warnings python/test/pixegami_test.py | tee ${{ env.RESULTS_DIR }}/python/pytest_pixegami-results.txt
-      continue-on-error: true
-      
-    # ------------ ARTIFACTS ------------
-    - name: 📁 Almanceando resultados... # Almacena los resultados de las pruebas
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results
-        path: results/
-
-    # ------------ SUMMARY ------------
-    - name: 📋 Resumen # Resumen de las tareas de Java y Python
-      run: |
-        echo "✅ Java and Python tasks completed."
-        echo "📄 Outputs stored in 'results/' and uploaded as artifacts."
-
-    - name: 📦 Instalando Sonar Scanner...
-      run: |
-        wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-        unzip sonar-scanner-cli-5.0.1.3006-linux.zip
-        mv sonar-scanner-5.0.1.3006-linux sonar-scanner
-        echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
-
-    - name: ☑️ Verificando SonarQube...
-      run: |
-        curl -I http://rnduk-77-211-5-159.a.free.pinggy.link || true
-
-    - name: 🚀 Ejecutando escaneo de SonarQube...
-      run: |
-        sonar-scanner \
-          -Dsonar.projectKey=VariosTests \
-          -Dsonar.host.url=http://rnduk-77-211-5-159.a.free.pinggy.link \
-          -Dsonar.token=${{ secrets.MAIN_TOKEN }} \
-          -Dsonar.sources=python,src \
-          -Dsonar.python.version=3.x \
-          -Dsonar.qualitygate.wait=true \
-          -X
+      - name: Analizar con SonarQube...
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=SQLInjectionTest \
+            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.sources=src/Main.java \
+            -Dsonar.qualitygate.wait=true \
+            -X
+            
+      - name: Verificar Quality Gate...
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          status=$(curl -s -u $SONAR_TOKEN: "http://80.32.55.61:9000/api/qualitygates/project_status?projectKey=SQLInjectionTest" | jq -r .projectStatus.status)
+          if [ "$status" != "OK" ]; then
+            echo "Quality Gate failed: $status"
+            echo "View details on http://80.32.55.61:9000/dashboard?id=SQLInjectionTest"
+            exit 1
+          else
+            echo "Quality Gate passed: $status"
+          fi
